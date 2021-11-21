@@ -1,0 +1,26 @@
+b1;	Begin T1: Record is added to transaction table with Tid=1 and TS(T1)=1. T1 state=Active.
+r1(Y);  The transaction state for transaction T1 is Active so entry for data item Y has been entered in the lock table and transaction T1 has procured Read Lock on it.
+
+r1(Z);  The transaction state for transaction T1 is Active so entry for data item Z has been entered in the lock table and transaction T1 has procured Read Lock on it.
+
+b2;	Begin T2: Record is added to transaction table with Tid=2 and TS(T2)=2. T2 state=Active.
+r2(Y);  Y read locked by T2: Lock Table record for Y is created with mode Read (T2 holds lock).
+
+b3;	Begin T3: Record is added to transaction table with Tid=3 and TS(T3)=3. T3 state=Active.
+r3(Y);  Y read locked by T3: Lock Table record for Y is created with mode Read (T3 holds lock).
+
+w1(Z);   Read lock upgraded to write lock for item Z by T1, lock table updated to mode W.
+
+w3(Y);  Transaction T3 has been blocked because it has applied Write lock on the same data item.
+w2(Y);  Transaction T2 has been blocked because it has applied Write lock on the same data item.
+Releasing locks procured by transaction T3
+Transaction T3 has released read lock on Y
+Aborting transaction T3...
+r2(X);  Transaction T2 is in blocked state Read operation on data item X has been added to the blocked operation queue of transaction table and the transaction T2 has been added to the waiting list of lock table.
+
+Transaction T1 has released write lock on Z
+e1;  T1 state=Commit. T1 releases all locks held by T1
+e3;   Transaction T3 cannot be committed because it has already been aborted.
+w2(X);  Transaction T2 is in blocked state Write operation on data item X has been added to the blocked operation queue of transaction table and the transaction T2 has been added to the waiting list of lock table.
+
+e2;  Commit operation on transaction T2 has been added to the blocked operation queue.

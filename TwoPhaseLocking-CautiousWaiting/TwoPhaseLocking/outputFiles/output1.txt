@@ -1,0 +1,36 @@
+b1;	Begin T1: Record is added to transaction table with Tid=1 and TS(T1)=1. T1 state=Active.
+r1(Y);  The transaction state for transaction T1 is Active so entry for data item Y has been entered in the lock table and transaction T1 has procured Read Lock on it.
+
+w1(Y);   Read lock upgraded to write lock for item Y by T1, lock table updated to mode W.
+
+r1(Z);  The transaction state for transaction T1 is Active so entry for data item Z has been entered in the lock table and transaction T1 has procured Read Lock on it.
+
+b3;	Begin T3: Record is added to transaction table with Tid=3 and TS(T3)=2. T3 state=Active.
+r3(X);  The transaction state for transaction T3 is Active so entry for data item X has been entered in the lock table and transaction T3 has procured Read Lock on it.
+
+w3(X);   Read lock upgraded to write lock for item X by T3, lock table updated to mode W.
+
+w1(Z);   Read lock upgraded to write lock for item Z by T1, lock table updated to mode W.
+
+Transaction T1 has released write lock on Y
+Transaction T1 has released write lock on Z
+e1;  T1 state=Commit. T1 releases all locks held by T1
+r3(Y);  The transaction state for transaction T3 is Active so entry for data item Y has been entered in the lock table and transaction T3 has procured Read Lock on it.
+
+b2;	Begin T2: Record is added to transaction table with Tid=2 and TS(T2)=3. T2 state=Active.
+r2(Z);  The transaction state for transaction T2 is Active so entry for data item Z has been entered in the lock table and transaction T2 has procured Read Lock on it.
+
+w2(Z);   Read lock upgraded to write lock for item Z by T2, lock table updated to mode W.
+
+w3(Y);   Read lock upgraded to write lock for item Y by T3, lock table updated to mode W.
+
+Transaction T3 has released write lock on X
+Transaction T3 has released write lock on Y
+e3;  T3 state=Commit. T3 releases all locks held by T3
+r2(X);  The transaction state for transaction T2 is Active so entry for data item X has been entered in the lock table and transaction T2 has procured Read Lock on it.
+
+w2(X);   Read lock upgraded to write lock for item X by T2, lock table updated to mode W.
+
+Transaction T2 has released write lock on Z
+Transaction T2 has released write lock on X
+e2;  T2 state=Commit. T2 releases all locks held by T2
